@@ -1,8 +1,16 @@
 package com.project.core;
 
-import java.math.BigDecimal;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+@Entity
+@Table(name = "trades")
 public class SimulatedTrade {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String symbol;
     private BigDecimal entryPrice;
     private BigDecimal exitPrice;
@@ -10,6 +18,8 @@ public class SimulatedTrade {
     private String sellExchange;
     private long timestamp;
     private BigDecimal profit;
+
+    public SimulatedTrade() {}
 
     public SimulatedTrade(String symbol, BigDecimal entryPrice, BigDecimal exitPrice, String buyExchange, String sellExchange, long timestamp, BigDecimal profit) {
         this.symbol = symbol;
@@ -79,14 +89,13 @@ public class SimulatedTrade {
 
     @Override
     public String toString() {
-        return "SimulatedTrade{" +
-                "symbol='" + symbol + '\'' +
-                ", entryPrice=" + entryPrice +
-                ", exitPrice=" + exitPrice +
-                ", buyExchange='" + buyExchange + '\'' +
-                ", sellExchange='" + sellExchange + '\'' +
-                ", timestamp=" + timestamp +
-                ", profit=" + profit +
-                '}';
+        return "SimulatedTrade: " +
+                "symbol: '" + symbol + '\'' +
+                ", entryPrice: " + entryPrice +
+                ", exitPrice: " + exitPrice +
+                ", buyExchange: '" + buyExchange + '\'' +
+                ", sellExchange: '" + sellExchange + '\'' +
+                ", timestamp: " + timestamp +
+                ", profit: " + profit;
     }
 }

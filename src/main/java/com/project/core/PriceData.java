@@ -50,11 +50,9 @@ public class PriceData {
 
     @Override
     public String toString() {
-        return "PriceData{" +
-                "symbol='" + symbol + '\'' +
-                ", price=" + price +
-                ", timestamp=" + timestamp +
-                ", exchange='" + exchange + '\'' +
-                '}';
+        return " symbol: '" + symbol + '\'' +
+                "| price: " + price +
+                "| timestamp: " + timestamp +
+                "| exchange: '" + exchange + '\'';
     }
 }
