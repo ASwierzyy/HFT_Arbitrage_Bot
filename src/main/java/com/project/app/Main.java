@@ -1,18 +1,21 @@
 package com.project.app;
 
-import com.project.core.ArbitrageDetector;
-import com.project.core.BinancePriceFetcher;
-import com.project.core.CoinbasePriceFetcher;
-import com.project.core.SimpleArbitrageDetector;
+import com.project.core.*;
+
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         System.out.println("Starting Arbitrage Bot...");
 
-         BinancePriceFetcher binance = new BinancePriceFetcher();
-         CoinbasePriceFetcher coinbase = new CoinbasePriceFetcher();
-         ArbitrageDetector detector = new SimpleArbitrageDetector();
+        PriceFetcher binanceFetcher = new BinancePriceFetcher();
+        PriceData binancePrice = binanceFetcher.fetchCurrentPrice("BTC/USDT");
+        System.out.println(binancePrice);
 
-         System.out.println("Bot initialized.");
+        PriceFetcher coinbaseFetcher = new CoinbasePriceFetcher();
+        PriceData price = coinbaseFetcher.fetchCurrentPrice("BTC/USD");
+        System.out.println(price);
+
+
     }
 }
