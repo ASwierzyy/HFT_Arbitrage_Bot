@@ -23,11 +23,16 @@ public class BinancePriceFetcher implements PriceFetcher{
         URI uri = URI.create(BASE_URL+"?symbol="+querySymbol);
         HttpRequest request = HttpRequest.newBuilder().uri(uri).GET().build();
         HttpResponse<String> response = httpClient.send(request,HttpResponse.BodyHandlers.ofString());
-        BinanceResponse binanceResponse = objectMapper.readValue(response.body(),BinanceResponse.class);
-        return new PriceData(binanceResponse.symbol,
-                new BigDecimal(binanceResponse.price),
-                System.currentTimeMillis(),
-                "Binance");
+
+        if(response.statusCode() == 200){
+            BinanceResponse binanceResponse = objectMapper.readValue(response.body(),BinanceResponse.class);
+            return new PriceData(binanceResponse.symbol,
+                    new BigDecimal(binanceResponse.price),
+                    System.currentTimeMillis(),
+                    "Binance");
+        }else throw new IOException("Binance API returned error: " + response.statusCode());
+
+
     }
 
     private static class BinanceResponse {

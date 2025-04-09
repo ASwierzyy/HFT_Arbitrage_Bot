@@ -22,13 +22,17 @@ public class CoinbasePriceFetcher implements PriceFetcher{
         HttpRequest request = HttpRequest.newBuilder().uri(uri).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        CoinbaseWrapperResponse wrapper = objectMapper.readValue(response.body(), CoinbaseWrapperResponse.class);
-        CoinbaseResponse coinbaseData = wrapper.data;
+        if (response.statusCode() == 200){
+            CoinbaseWrapperResponse wrapper = objectMapper.readValue(response.body(), CoinbaseWrapperResponse.class);
+            CoinbaseResponse coinbaseData = wrapper.data;
 
-        return new PriceData(coinbaseData.base + "/" + coinbaseData.currency,
-                new BigDecimal(coinbaseData.amount),
-                System.currentTimeMillis(),
-                "Coinbase");
+            return new PriceData(coinbaseData.base + "/" + coinbaseData.currency,
+                    new BigDecimal(coinbaseData.amount),
+                    System.currentTimeMillis(),
+                    "Coinbase");
+        }else throw new IOException("Coinbase API returned error: " + response.statusCode());
+
+
     }
 
     private static class CoinbaseWrapperResponse {
